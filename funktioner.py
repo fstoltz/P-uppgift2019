@@ -33,11 +33,11 @@ def huvudMeny():
 
     val = int(readInput())
     if(val == 1):
-        skrivUtRegister(registerNamn)
+        skrivUtRegister(listaMedRegisterObj)
     elif(val == 2):
         skapaNyPerson()
     elif(val == 3):
-        skapaNyttRegister()
+        skapaNyttRegister(listaMedRegisterObj)
         pass
     elif(val == 4):
         pass
@@ -62,17 +62,14 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
         del data[0]
 
 
-        for b in range(0, len(data)):
-            data[b] = data[b].strip("\n") #for loopen tar bort ny rad brytning
-
+        for b in range(0, len(data)): #for loopen tar bort ny rad brytning som vi ej vill ha vid nyskapning av personer
+            data[b] = data[b].strip("\n") 
 
         for c in range(0, len(data), 4):
             #print(c)
             nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
-            listaMedRegisterObj[i].laggTillKontakt(nyKontakt) #TODO
+            listaMedRegisterObj[i].laggTillKontakt(nyKontakt)
 
-
-    print("----------------------")
     #print(listaMedRegisterObj[0])
     #print(listaMedRegisterObj[2].skrivUtAlla())
 
@@ -83,9 +80,12 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
 
 
 
-def skrivUtRegister(registerNamn):
-    for i in range(1, len(registerNamn.keys())):
-        print("("+str(i)+") "+registerNamn.get(i))
+def skrivUtRegister(listaMedRegisterObj):
+    for register in listaMedRegisterObj:
+        print(register.getNamn())
+    #for i in range(1, len(registerNamn.keys())):
+    #    print("("+str(i)+") "+registerNamn.get(i))
+    #input = readInput("Vilken")
 
 def hamtaKontakterFranRegister(namnPaRegistret):
     pass
@@ -113,10 +113,20 @@ def filNamnPaRadxIRegistret(x):
     pass
 
 
-def skapaNyttRegister():
-    namnPaRegister = input("Namn på nytt register: ")
+def skapaNyttRegister(listaMedRegisterObj):
+    namnPaRegister = readInput("Namn på nya registret: ")
     file = open("register.info", "a")
     file.write(namnPaRegister + "\n")
+
+
+    #file2 = open(namnPaRegister+".reg", "w+")
+    #file2.close()
+    
+    f= open(namnPaRegister.lower()+".reg","w")
+    f.write("\n")
+    listaMedRegisterObj.append(Register(namnPaRegister))
+
+
 
 def skrivPersonTillRegister(person, registerNamn):
     file = open(registerNamn.lower() + ".reg", "a")
