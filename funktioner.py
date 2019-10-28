@@ -3,6 +3,7 @@ Författare: Fredrik Stoltz
 Datum: 
 """
 from personMall import Person
+from registerMall import Register
 
 import os
 
@@ -17,10 +18,21 @@ def huvudMeny():
 (3) Skapa nytt register
 (4) Ändra/ta bort befintlig kontakt
 ''')
+
+    registerNamn = hamtaRegisterNamn()
+    listaMedRegisterObj = []
+    
+    for i in range(0, len(registerNamn.keys())):
+        listaMedRegisterObj.append(Register(registerNamn.get(i)))
+    
+    laddaRegisterMedInfoFranFil(listaMedRegisterObj)
+    #print(listaMedRegisterObj)
+
+
+
     val = int(readInput())
     if(val == 1):
-        skrivUtRegister()
-        pass
+        skrivUtRegister(registerNamn)
     elif(val == 2):
         skapaNyPerson()
     elif(val == 3):
@@ -28,6 +40,37 @@ def huvudMeny():
         pass
     elif(val == 4):
         pass
+
+
+
+
+
+
+
+
+def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
+    print(listaMedRegisterObj)
+    for i in range(0, len(listaMedRegisterObj)):
+        #nyKontakt måste här läsa från relevant register och göra ett nytt kontakt objekt
+        print(listaMedRegisterObj[i].getNamn())
+        fil = open(listaMedRegisterObj[i].getNamn(), "r")
+
+        data = fil.readlines()
+        print(data)
+
+        listaMedRegisterObj[i].laggTillKontakt(nyKontakt)
+
+
+
+
+
+
+def skrivUtRegister(registerNamn):
+    for i in range(1, len(registerNamn.keys())):
+        print("("+str(i)+") "+registerNamn.get(i))
+
+def hamtaKontakterFranRegister(namnPaRegistret):
+    pass
 
 
 def hamtaRegisterNamn():
@@ -45,6 +88,8 @@ def hamtaRegisterNamn():
         #print("("+str(i+1)+") " + lines[i], end="")
         
     return(myDict)
+
+
 
 def filNamnPaRadxIRegistret(x):
     pass
