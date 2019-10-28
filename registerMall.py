@@ -12,8 +12,10 @@ class Register():
         self.__personLista = [] #denna lista ska innehålla person objekt
 
     def skrivUtAlla(self):
-        #“Skriver ut alla personer i sin lista”
-        pass
+        #Skriver ut alla personer i sin lista”
+        for person in self.__personLista:
+            print(person)
+
 
     def laggTillKontakt(self, nyKontakt):
         self.__personLista.append(nyKontakt)

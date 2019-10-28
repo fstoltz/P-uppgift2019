@@ -20,10 +20,11 @@ def huvudMeny():
 ''')
 
     registerNamn = hamtaRegisterNamn()
-    listaMedRegisterObj = []
+    listaMedRegisterObj = [] #DENNA LISTA ÄR VITAL UNDER HELA KÖRNINGEN, GER TILLGÅNG TILL REGISTER, VARPÅ REGISTER GER TILLGÅNG TILL PERSONER
     
     for i in range(0, len(registerNamn.keys())):
-        listaMedRegisterObj.append(Register(registerNamn.get(i)))
+        #listaMedRegisterObj.append(Register(registerNamn.get(i)[:-1].lower()+".reg"))
+        listaMedRegisterObj.append(Register(registerNamn.get(i+1)[:-1]))
     
     laddaRegisterMedInfoFranFil(listaMedRegisterObj)
     #print(listaMedRegisterObj)
@@ -49,16 +50,33 @@ def huvudMeny():
 
 
 def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
-    print(listaMedRegisterObj)
+    #print(listaMedRegisterObj)
     for i in range(0, len(listaMedRegisterObj)):
         #nyKontakt måste här läsa från relevant register och göra ett nytt kontakt objekt
-        print(listaMedRegisterObj[i].getNamn())
-        fil = open(listaMedRegisterObj[i].getNamn(), "r")
+        #print("**************************")
+        #print(listaMedRegisterObj[i].getNamn())
+        filnamn = listaMedRegisterObj[i].getNamn().lower()+".reg"
+        fil = open(filnamn, "r")
 
         data = fil.readlines()
-        print(data)
+        del data[0]
 
-        listaMedRegisterObj[i].laggTillKontakt(nyKontakt)
+
+        for b in range(0, len(data)):
+            data[b] = data[b].strip("\n") #for loopen tar bort ny rad brytning
+
+
+        for c in range(0, len(data), 4):
+            #print(c)
+            nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
+            listaMedRegisterObj[i].laggTillKontakt(nyKontakt) #TODO
+
+
+    print("----------------------")
+    #print(listaMedRegisterObj[0])
+    #print(listaMedRegisterObj[2].skrivUtAlla())
+
+        
 
 
 

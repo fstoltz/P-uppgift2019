@@ -41,7 +41,7 @@ class Person():
 
     def __str__(self):
         #Detta format används för användarvänlig utskrift av            personen under programkörning
-        pass
+        return self.__fornamn + " " + self.__efternamn
 
     def skrivTillFil(self):
         #Detta format används då personen ska skrivas till en fil
