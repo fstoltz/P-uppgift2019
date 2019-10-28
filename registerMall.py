@@ -16,6 +16,15 @@ class Register():
         for person in self.__personLista:
             print(person)
 
+    def skrivSamtligDataTillFil(self):
+        data = ""
+        for person in self.__personLista:
+            data = data + person.skrivTillFil()
+        return data
+
+    def antalPersoner(self):
+        return len(self.__personLista)
+
 
     def laggTillKontakt(self, nyKontakt):
         self.__personLista.append(nyKontakt)

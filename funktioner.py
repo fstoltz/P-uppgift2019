@@ -17,6 +17,7 @@ def huvudMeny():
 (2) Skapa ny kontakt
 (3) Skapa nytt register
 (4) Ändra/ta bort befintlig kontakt
+(5) Spara och avsluta programmet.
 ''')
 
     registerNamn = hamtaRegisterNamn()
@@ -35,16 +36,29 @@ def huvudMeny():
     if(val == 1):
         skrivUtRegister(listaMedRegisterObj)
     elif(val == 2):
-        skapaNyPerson()
+        skapaNyPerson(listaMedRegisterObj)
     elif(val == 3):
         skapaNyttRegister(listaMedRegisterObj)
         pass
     elif(val == 4):
         pass
+    elif(val == 5):
+        skrivAndringarTillFil(listaMedRegisterObj) ##NY FUNKTION, ANVÄND EJ GAMLA
+        pass
+        #SPARA ÄNDRINGARNA OCH AVSLUTA SEDAN PROGRAMMET
+        #De ändringar som ska sparas är nya kontakter tillagda till de olika registern.
+        #Dvs kontakter ska skrivas till respektive register.
 
 
 
 
+def skrivAndringarTillFil(listaMedRegisterObj):
+    for register in listaMedRegisterObj:
+        filnamn = register.getNamn().lower()+".reg"
+        fil = open(filnamn, "w")
+
+        #for i in range(0, len(listaMedRegisterObj)):
+        fil.write(register.skrivSamtligDataTillFil())
 
 
 
@@ -59,7 +73,8 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
         fil = open(filnamn, "r")
 
         data = fil.readlines()
-        del data[0]
+        if(len(data) > 0): #edge case fix
+            del data[0]
 
 
         for b in range(0, len(data)): #for loopen tar bort ny rad brytning som vi ej vill ha vid nyskapning av personer
@@ -81,10 +96,10 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
 
 
 def skrivUtRegister(listaMedRegisterObj):
-    for register in listaMedRegisterObj:
-        print(register.getNamn())
-    #for i in range(1, len(registerNamn.keys())):
-    #    print("("+str(i)+") "+registerNamn.get(i))
+    #for register in listaMedRegisterObj:
+    #    print(register.getNamn())
+    for i in range(1, len(listaMedRegisterObj)):
+        print("("+str(i)+") "+listaMedRegisterObj[i].getNamn())
     #input = readInput("Vilken")
 
 def hamtaKontakterFranRegister(namnPaRegistret):
@@ -123,7 +138,7 @@ def skapaNyttRegister(listaMedRegisterObj):
     #file2.close()
     
     f= open(namnPaRegister.lower()+".reg","w")
-    f.write("\n")
+    #f.write("\n")
     listaMedRegisterObj.append(Register(namnPaRegister))
 
 
@@ -142,8 +157,29 @@ def readInput(prompt=""):
         huvudMeny()
 
 
-def laggTillPersonIRegister(nyKontakt):
-    print("Till vilka register vill du lägga till nya kontakten?")
+def laggTillPersonIRegister(nyKontakt, listaMedRegisterObj):
+    skrivUtRegister(listaMedRegisterObj)    
+
+
+    val = readInput("Vilket/vilka register vill du lägga till kontakten till?")
+    if(len(val) == 1):#kontakten ska bara tilläggas till ett register
+        #lägg till nyKontakt till det register som motsvarar valet
+        index = int(val)
+        listaMedRegisterObj[index].laggTillKontakt(nyKontakt)
+    else:
+        fleraVal = val.split(",")
+        for ettVal in fleraVal:
+            listaMedRegisterObj[int(ettVal)].laggTillKontakt(nyKontakt)
+            #skrivPersonTillRegister(nyKontakt, (namn.get(int(nyttVal[int(val)-1])))[:-1])
+        print(3)
+
+
+
+
+
+
+
+    """print("Till vilka register vill du lägga till nya kontakten?")
     namn = hamtaRegisterNamn()
 
     antalRegister = len(namn.keys())
@@ -165,9 +201,9 @@ def laggTillPersonIRegister(nyKontakt):
         for val in nyttVal:
             skrivPersonTillRegister(nyKontakt, (namn.get(int(nyttVal[int(val)-1])))[:-1])
         #print(nyttVal)
+    """
 
-
-def skapaNyPerson():
+def skapaNyPerson(listaMedRegisterObj):
     #Läser in userinput för värdena, låter anv. välja vilka register som personen ska tillhöra, skapar personen och lägger till den till lämpliga register.
     print("Du har valt att skapa en ny kontakt.")
     fornamn = readInput("Förnamn: ")
@@ -175,7 +211,7 @@ def skapaNyPerson():
     address = readInput("Address: ")
     telefonnummer = readInput("Telefonnummer: ")
     nyKontakt = Person(fornamn, efternamn, address, telefonnummer)
-    laggTillPersonIRegister(nyKontakt)
+    laggTillPersonIRegister(nyKontakt, listaMedRegisterObj)
     
 
 
