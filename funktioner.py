@@ -17,7 +17,7 @@ def huvudMeny():
 (3) Skapa nytt register
 (4) Ändra/ta bort befintlig kontakt
 ''')
-    val = int(input())
+    val = int(readInput())
     if(val == 1):
         skrivUtRegister()
         pass
@@ -28,6 +28,7 @@ def huvudMeny():
         pass
     elif(val == 4):
         pass
+
 
 def hamtaRegisterNamn():
     """filnamn = os.listdir("/home/fsto/Documents/Programmering och C/P-uppgift2019/")
@@ -58,30 +59,48 @@ def skrivPersonTillRegister(person, registerNamn):
     file = open(registerNamn.lower() + ".reg", "a")
     file.write(person.skrivTillFil())
 
+def readInput(prompt=""):
+    userInput = input(prompt)
+    if(userInput != "!"):
+        return userInput
+    else:
+        #gå till huvudmeny
+        print("\nDu har valt att avbryta nuvarande val, återgår till huvudmenyn.\n")
+        huvudMeny()
+
+
 def laggTillPersonIRegister(nyKontakt):
     print("Till vilka register vill du lägga till nya kontakten?")
     namn = hamtaRegisterNamn()
 
+    antalRegister = len(namn.keys())
 
-    for value in namn.values():
-        print(value)
+    for i in range(1, antalRegister+1):
+        print("("+str(i)+") "+ namn.get(i))
+        
 
-    val = str(input(":"))
-    if(len(val) == 1):
+    #for value in namn.values():
+    #    print(value)
+
+    #val = str(input(":"))
+    val = readInput(":")
+    if(len(val) == 1):#kontakten ska bara tilläggas till ett register
         #lägg till nyKontakt till det register som motsvarar valet
         skrivPersonTillRegister(nyKontakt, (namn.get(int(val)))[:-1]) # :-1 tar bort \n för filnamnet sedan i skrivPersonTillRegister
     else:
         nyttVal = val.split(",")
-        print(nyttVal)
+        for val in nyttVal:
+            skrivPersonTillRegister(nyKontakt, (namn.get(int(nyttVal[int(val)-1])))[:-1])
+        #print(nyttVal)
 
 
 def skapaNyPerson():
     #Läser in userinput för värdena, låter anv. välja vilka register som personen ska tillhöra, skapar personen och lägger till den till lämpliga register.
     print("Du har valt att skapa en ny kontakt.")
-    fornamn = input("Förnamn: ")
-    efternamn = input("Efternamn: ")
-    address = input("Address: ")
-    telefonnummer = input("Telefonnummer: ")
+    fornamn = readInput("Förnamn: ")
+    efternamn = readInput("Efternamn: ")
+    address = readInput("Address: ")
+    telefonnummer = readInput("Telefonnummer: ")
     nyKontakt = Person(fornamn, efternamn, address, telefonnummer)
     laggTillPersonIRegister(nyKontakt)
     

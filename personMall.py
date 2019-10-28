@@ -45,5 +45,5 @@ class Person():
 
     def skrivTillFil(self):
         #Detta format används då personen ska skrivas till en fil
-        return(self.__fornamn + "\n" + self.__efternamn + "\n" + self.__address + "\n" + self.__nummer)
+        return("\n" +self.__fornamn + "\n" + self.__efternamn + "\n" + self.__address + "\n" + self.__nummer)
         

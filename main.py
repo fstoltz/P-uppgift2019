@@ -5,6 +5,7 @@ Datum:
 
 import funktioner
 
-funktioner.huvudMeny()
+while(1):
+	funktioner.huvudMeny()
 
 
