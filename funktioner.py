@@ -143,6 +143,7 @@ def skapaNyttRegister(listaMedRegisterObj):
     #file2.close()
     
     f= open(namnPaRegister.lower()+".reg","w")
+    f.close()
     #f.write("\n")
     listaMedRegisterObj.append(Register(namnPaRegister))
 
@@ -170,7 +171,7 @@ def laggTillPersonIRegister(nyKontakt, listaMedRegisterObj):
     if(len(val) == 1):#kontakten ska bara tilläggas till ett register
         #lägg till nyKontakt till det register som motsvarar valet
         index = int(val)
-        listaMedRegisterObj[index].laggTillKontakt(nyKontakt)
+        listaMedRegisterObj[index-1].laggTillKontakt(nyKontakt)
     else:
         fleraVal = val.split(",")
         for ettVal in fleraVal:
