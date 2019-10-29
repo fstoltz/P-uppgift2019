@@ -10,41 +10,34 @@ import os
 
 def huvudMeny():
     #“Skriver ut menyn etc, läser userinput för val. Ropar på lämplig funktion x vid val x.”
-    print('''
-    Vad vill du göra?
-
-(1) Bläddra bland mina register
-(2) Skapa ny kontakt
-(3) Skapa nytt register
-(4) Ändra/ta bort befintlig kontakt
-(5) Spara och avsluta programmet.
-''')
 
     registerNamn = hamtaRegisterNamn()
     listaMedRegisterObj = [] #DENNA LISTA ÄR VITAL UNDER HELA KÖRNINGEN, GER TILLGÅNG TILL REGISTER, VARPÅ REGISTER GER TILLGÅNG TILL PERSONER
     
     for i in range(0, len(registerNamn.keys())):
         #listaMedRegisterObj.append(Register(registerNamn.get(i)[:-1].lower()+".reg"))
-        listaMedRegisterObj.append(Register(registerNamn.get(i+1)[:-1]))
+        namn = registerNamn.get(i+1)[:-1]
+        listaMedRegisterObj.append(Register(namn))
     
     laddaRegisterMedInfoFranFil(listaMedRegisterObj)
     #print(listaMedRegisterObj)
 
 
-
-    val = int(readInput())
-    if(val == 1):
-        skrivUtRegister(listaMedRegisterObj)
-    elif(val == 2):
-        skapaNyPerson(listaMedRegisterObj)
-    elif(val == 3):
-        skapaNyttRegister(listaMedRegisterObj)
-        pass
-    elif(val == 4):
-        pass
-    elif(val == 5):
-        skrivAndringarTillFil(listaMedRegisterObj) ##NY FUNKTION, ANVÄND EJ GAMLA
-        pass
+    while(1):
+        huvudMenyInstruktioner()
+        val = int(readInput())
+        if(val == 1):
+            skrivUtRegister(listaMedRegisterObj)
+        elif(val == 2):
+            skapaNyPerson(listaMedRegisterObj)
+        elif(val == 3):
+            skapaNyttRegister(listaMedRegisterObj)
+            pass
+        elif(val == 4):
+            pass
+        elif(val == 5):
+            skrivAndringarTillFil(listaMedRegisterObj) ##NY FUNKTION, ANVÄND EJ GAMLA
+            exit()
         #SPARA ÄNDRINGARNA OCH AVSLUTA SEDAN PROGRAMMET
         #De ändringar som ska sparas är nya kontakter tillagda till de olika registern.
         #Dvs kontakter ska skrivas till respektive register.
@@ -60,6 +53,16 @@ def skrivAndringarTillFil(listaMedRegisterObj):
         #for i in range(0, len(listaMedRegisterObj)):
         fil.write(register.skrivSamtligDataTillFil())
 
+def huvudMenyInstruktioner():
+    print('''
+    Vad vill du göra?
+
+(1) Bläddra bland mina register
+(2) Skapa ny kontakt
+(3) Skapa nytt register
+(4) Ändra/ta bort befintlig kontakt
+(5) Spara och avsluta programmet.
+    ''')
 
 
 
@@ -98,8 +101,8 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
 def skrivUtRegister(listaMedRegisterObj):
     #for register in listaMedRegisterObj:
     #    print(register.getNamn())
-    for i in range(1, len(listaMedRegisterObj)):
-        print("("+str(i)+") "+listaMedRegisterObj[i].getNamn())
+    for i in range(0, len(listaMedRegisterObj)):
+        print("("+str(i+1)+") "+listaMedRegisterObj[i].getNamn())
     #input = readInput("Vilken")
 
 def hamtaKontakterFranRegister(namnPaRegistret):
@@ -117,7 +120,9 @@ def hamtaRegisterNamn():
 
     myDict = {}
     for i in range(0, len(lines)):
-        myDict.update({i+1:lines[i]})
+        line = lines[i]
+        line.strip("\n")
+        myDict.update({i+1:line})
         #print("("+str(i+1)+") " + lines[i], end="")
         
     return(myDict)
@@ -169,7 +174,7 @@ def laggTillPersonIRegister(nyKontakt, listaMedRegisterObj):
     else:
         fleraVal = val.split(",")
         for ettVal in fleraVal:
-            listaMedRegisterObj[int(ettVal)].laggTillKontakt(nyKontakt)
+            listaMedRegisterObj[int(ettVal)-1].laggTillKontakt(nyKontakt) #-1 för att userInput är 1 men vi ska lägga till till det 0:te elementet
             #skrivPersonTillRegister(nyKontakt, (namn.get(int(nyttVal[int(val)-1])))[:-1])
         print(3)
 
