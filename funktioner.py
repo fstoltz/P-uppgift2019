@@ -1,17 +1,33 @@
 """
 Författare: Fredrik Stoltz
-Datum: 
+Datum: 29/10-2019
 """
 from personMall import Person
 from registerMall import Register
+"""
+ATT GÖRA:
 
-import os
+(
+Felhantering.
+Try except för input, Öppnande av filer, skapande av register som redan finns.
+Rensa input från dålig data. Mellan slag etc. Tecken där det bara ska vara siffror etc. Bra felhantering. Programmet ska ej krascha.
+Kunna använda svenska å,ä,å för registernamn?? konvertera för filnamn??
+)
 
+(
+Sök funktionalitet. / Sök på valda registren
+)
 
-def huvudMeny():
+(
+Ta bort/Ändra funktionalitet.
+)
+"""
+
+def huvudMeny(firstTime=1):
     #“Skriver ut menyn etc, läser userinput för val. Ropar på lämplig funktion x vid val x.”
-    listaMedRegisterObj = skapaListaMedRegister()
-    laddaRegisterMedInfoFranFil(listaMedRegisterObj)
+    if(firstTime == 1):
+        listaMedRegisterObj = skapaListaMedRegister()
+        laddaRegisterMedInfoFranFil(listaMedRegisterObj)
 
     while(1):
         huvudMenyInstruktioner()
@@ -69,8 +85,6 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
     #print(listaMedRegisterObj)
     for i in range(0, len(listaMedRegisterObj)):
         #nyKontakt måste här läsa från relevant register och göra ett nytt kontakt objekt
-        #print("**************************")
-        #print(listaMedRegisterObj[i].getNamn())
         filnamn = listaMedRegisterObj[i].getNamn().lower()+".reg"
         fil = open(filnamn, "r")
 
@@ -78,47 +92,38 @@ def laddaRegisterMedInfoFranFil(listaMedRegisterObj):
         if(len(data) > 0): #edge case fix
             del data[0]
 
-
         for b in range(0, len(data)): #for loopen tar bort ny rad brytning som vi ej vill ha vid nyskapning av personer
             data[b] = data[b].strip("\n") 
 
         for c in range(0, len(data), 4):
-            #print(c)
             nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
             listaMedRegisterObj[i].laggTillKontakt(nyKontakt)
 
 
 def skrivUtRegister(listaMedRegisterObj):
-    #for register in listaMedRegisterObj:
-    #    print(register.getNamn())
     for i in range(0, len(listaMedRegisterObj)):
         print("("+str(i+1)+") "+listaMedRegisterObj[i].getNamn())
-    #input = readInput("Vilken")
 
 
 def hamtaRegisterNamn():
-
     file = open("register.info", "r")    
-    
     lines = file.readlines()
-
     myDict = {}
     for i in range(0, len(lines)):
         line = lines[i]
         line.strip("\n")
         myDict.update({i+1:line})
         #print("("+str(i+1)+") " + lines[i], end="")
-        
     return(myDict)
 
 
 def skapaNyttRegister(listaMedRegisterObj):
     namnPaRegister = readInput("Namn på nya registret: ")
     file = open("register.info", "a")
-    file.write(namnPaRegister + "\n")
-    f= open(namnPaRegister.lower()+".reg","w")
+    file.write(namnPaRegister + "\n") #SAK 1
+    f= open(namnPaRegister.lower()+".reg","w") #SAK 2
     f.close()
-    listaMedRegisterObj.append(Register(namnPaRegister))
+    listaMedRegisterObj.append(Register(namnPaRegister)) #SAK3
 
 
 def readInput(prompt=""):
@@ -127,7 +132,7 @@ def readInput(prompt=""):
         return userInput
     else:
         print("\nDu har valt att avbryta nuvarande val, återgår till huvudmenyn.\n")
-        huvudMeny()
+        huvudMeny(0)
 
 
 def laggTillPersonIRegister(nyKontakt, listaMedRegisterObj):
