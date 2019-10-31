@@ -1,6 +1,6 @@
 """
 Författare: Fredrik Stoltz
-Datum: 
+Datum: 29/10-2019
 """
 
 import funktioner

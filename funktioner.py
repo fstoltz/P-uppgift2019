@@ -9,7 +9,7 @@ ATT GÖRA:
 
 (
 Felhantering.
-Try except för input, Öppnande av filer, skapande av register som redan finns.
+Try except för input, Öppnande av filer(filer som ej finns etc, svenska bokstäver(?)), skapande av register som redan finns.
 Rensa input från dålig data. Mellan slag etc. Tecken där det bara ska vara siffror etc. Bra felhantering. Programmet ska ej krascha.
 Kunna använda svenska å,ä,å för registernamn?? konvertera för filnamn??
 )
@@ -44,9 +44,9 @@ def huvudMeny(firstTime=1):
         elif(val == 5):
             skrivAndringarTillFil(listaMedRegisterObj) ##NY FUNKTION, ANVÄND EJ GAMLA
             exit()
-        #SPARA ÄNDRINGARNA OCH AVSLUTA SEDAN PROGRAMMET
-        #De ändringar som ska sparas är nya kontakter tillagda till de olika registern.
-        #Dvs kontakter ska skrivas till respektive register.
+            #SPARA ÄNDRINGARNA OCH AVSLUTA SEDAN PROGRAMMET
+            #De ändringar som ska sparas är nya kontakter tillagda till de olika registern.
+            #Dvs kontakter ska skrivas till respektive register, samt ändringar till befintliga kontakter samt borttagningar.
 
 
 def skrivAndringarTillFil(listaMedRegisterObj):
@@ -159,109 +159,3 @@ def skapaNyPerson(listaMedRegisterObj):
     nyKontakt = Person(fornamn, efternamn, address, telefonnummer)
     laggTillPersonIRegister(nyKontakt, listaMedRegisterObj)
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-def huvudMeny():
-    #“Skriver ut menyn etc, läser userinput för val. Ropar på lämplig funktion x vid val x.”
-
-    registerNamn = hamtaRegisterNamn()
-    listaMedRegisterObj = [] #DENNA LISTA ÄR VITAL UNDER HELA KÖRNINGEN, GER TILLGÅNG TILL REGISTER, VARPÅ REGISTER GER TILLGÅNG TILL PERSONER
-    
-    for i in range(0, len(registerNamn.keys())):
-        #listaMedRegisterObj.append(Register(registerNamn.get(i)[:-1].lower()+".reg"))
-        namn = registerNamn.get(i+1)[:-1]
-        listaMedRegisterObj.append(Register(namn))
-    
-    laddaRegisterMedInfoFranFil(listaMedRegisterObj)
-    #print(listaMedRegisterObj)
-    
-
-    while(1):
-        huvudMenyInstruktioner()
-        val = int(readInput())
-        if(val == 1):
-            skrivUtRegister(listaMedRegisterObj)
-        elif(val == 2):
-            skapaNyPerson(listaMedRegisterObj)
-        elif(val == 3):
-            skapaNyttRegister(listaMedRegisterObj)
-            pass
-        elif(val == 4):
-            pass
-        elif(val == 5):
-            skrivAndringarTillFil(listaMedRegisterObj) ##NY FUNKTION, ANVÄND EJ GAMLA
-            exit()
-        #SPARA ÄNDRINGARNA OCH AVSLUTA SEDAN PROGRAMMET
-        #De ändringar som ska sparas är nya kontakter tillagda till de olika registern.
-        #Dvs kontakter ska skrivas till respektive register.
-
-
-
-
-def skrivPersonTillRegister(person, registerNamn):
-    file = open(registerNamn.lower() + ".reg", "a")
-    file.write(person.skrivTillFil())
-
-
-    filnamn = os.listdir("/home/fsto/Documents/Programmering och C/P-uppgift2019/")
-    for name in filnamn:
-        if(name[-3:] == "reg"):
-            print
-
-
-
-def filNamnPaRadxIRegistret(x):
-    pass
-
-
-def laggTillPersonIRegister(nyKontakt):
-print("Till vilka register vill du lägga till nya kontakten?")
-    namn = hamtaRegisterNamn()
-
-    antalRegister = len(namn.keys())
-
-    for i in range(1, antalRegister+1):
-        print("("+str(i)+") "+ namn.get(i))
-        
-
-    #for value in namn.values():
-    #    print(value)
-
-    #val = str(input(":"))
-    val = readInput(":")
-    if(len(val) == 1):#kontakten ska bara tilläggas till ett register
-        #lägg till nyKontakt till det register som motsvarar valet
-        skrivPersonTillRegister(nyKontakt, (namn.get(int(val)))[:-1]) # :-1 tar bort \n för filnamnet sedan i skrivPersonTillRegister
-    else:
-        nyttVal = val.split(",")
-        for val in nyttVal:
-            skrivPersonTillRegister(nyKontakt, (namn.get(int(nyttVal[int(val)-1])))[:-1])
-        #print(nyttVal)
-
-
-
-
-def skrivAndringarTillRegisterFil(register):
-    pass
-    #Här skrivs nya ändringar till lämpligt register vid avslut av programmet
-
-
-
-
-
-"""
