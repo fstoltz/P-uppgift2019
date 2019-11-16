@@ -27,10 +27,34 @@ class MasterRegister:
             #print(valen)
 
         if(typ == "LETA" and len(self.__huvudRegister) != 0):        
-            if(len(keyword) == 0): #Ingen sökterm angavs, sök inom alla
+            """
+            allaPersoner = []
+            for val in valen:
+                for person in self.__huvudRegister[val].getPersonLista():
+                    allaPersoner.append(person)
+            print(allaPersoner)
+
+            for person in allaPersoner:
+                testPerson = person
+
+                for i in range(0, len(allaPersoner)-1):
+                    print(testPerson)
+                    print(allaPersoner[i+1])
+                    if(testPerson == allaPersoner[i+1]):
+                        print("FOUND DUPLICATE******************")
+            """
+
+
+
+
+            if(len(keyword) == 0): #Ingen sökterm angavs, sök inom alla, INGA DUBLETTER
                 for val in valen:
                     print("\n\n*****  "+self.__huvudRegister[val].getNamn()+"  *****")
                     self.__huvudRegister[val].skrivUtAlla()
+
+
+
+
             else:
                 for val in valen:
                     print("*****  "+self.__huvudRegister[val].getNamn()+"  *****")

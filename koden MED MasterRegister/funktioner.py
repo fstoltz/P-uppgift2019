@@ -45,9 +45,9 @@ def huvudMeny(firstTime=1, master=None):
         if(val == '1'):
             try:
                 master.skrivUtRegister()
-                valen = master.valjRegister(readInput(master, "\nVilka register vill du söka inom?\nEx. ange '3' för register nr.3 alt. '3,5,1' för register tre, fem och ett(samkörning).\n"))
+                valen = master.valjRegister(readInput(master, "\n\nVilka register vill du söka inom?\nEx. ange '3' för register nr.3 alt. '3,5,1' för register tre, fem och ett(samkörning).\nAnge ENTER för att söka inom samtliga.\n"))
                 
-                print("Ange ENTER för att söka utan någon term, dvs alla kontakter skrivs ut.")
+                print("\nAnge ENTER för att söka utan någon term, dvs alla kontakter skrivs ut(i namnordning).")
                 keyword = readInput(master, "Sökterm: ")
             
                 master.sok("LETA", keyword, valen)

@@ -11,11 +11,23 @@ class Register():
         self.__namn = namn
         self.__personLista = [] #denna lista ska innehålla person objekt
 
+
     def skrivUtAlla(self):
         #Skriver ut alla personer i sin lista”
+        namnLista = []
         for person in self.__personLista:
             #print("---------------------")
-            print(person)
+            #print(person)
+            namnLista.append(person.getFornamn())
+
+        namnLista.sort()
+        #print(namnLista)
+
+        #print(self.__personLista)
+        
+        for namn in namnLista:
+            self.sok(namn, "LETA")
+
 
         print("---------------------")
 
@@ -78,6 +90,9 @@ class Register():
                 if char in numbers:
                     cleanedInput += char
         return cleanedInput
+
+    def getPersonLista(self):
+        return self.__personLista
 
     def taBortPerson(self, kontakt):
         #“Går igenom sin personLista och tar bort kontakt från den”
