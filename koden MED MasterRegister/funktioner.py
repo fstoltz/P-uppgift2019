@@ -43,28 +43,39 @@ def huvudMeny(firstTime=1, master=None):
         val = readInput(master, "Svar: ")
     
         if(val == '1'):
-            master.skrivUtRegister()
-            valen = master.valjRegister(readInput(master, "\nVilka register vill du söka inom?\nEx. ange '3' för register nr.3 alt. '3,5,1' för register tre, fem och ett(samkörning).\n"))
+            try:
+                master.skrivUtRegister()
+                valen = master.valjRegister(readInput(master, "\nVilka register vill du söka inom?\nEx. ange '3' för register nr.3 alt. '3,5,1' för register tre, fem och ett(samkörning).\n"))
+                
+                print("Ange ENTER för att söka utan någon term, dvs alla kontakter skrivs ut.")
+                keyword = readInput(master, "Sökterm: ")
             
-            print("Ange ENTER för att söka utan någon term, dvs alla kontakter skrivs ut.")
-            keyword = readInput(master, "Sökterm: ")
+                master.sok("LETA", keyword, valen)
+            except:
+                print("Something went wrong...")
+            
+        
 
-            master.sok("LETA", keyword, valen)
         elif(val == '2'):
             skapaNyPerson(master)
+        
+
         elif(val == '3'):
             master.skapaNyttRegister(readInput(master, "Namn på nya registret: "))
+        
+
         elif(val == '4'):
             userinput1 = readInput(master, "Vill du ändra(1) eller ta bort personen(2)?")
             if(userinput1 == "2"):
-                print("#attempt to delete the person")
+                #print("#attempt to delete the person")
                 keyword = readInput(master, "Sökterm: ")
                 master.sok("TABORT", keyword)
             elif(userinput1 == "1"):
-                print("#attempt to change person")
+                #print("#attempt to change person")
                 keyword = readInput(master, "Sökterm: ")
                 master.sok("ANDRA", keyword)
                 
+        
         elif(val == '5'):
             master.skrivAndringarTillFil() ##NY FUNKTION, ANVÄND EJ GAMLA
             exit()
@@ -89,14 +100,17 @@ def huvudMenyInstruktioner():
 
 
 def readInput(master, prompt=""): #master får åka med här för att ifall anv. väljer att avbryta nuvarande operation går programmet tillbaka till startpunkten och master objektet skickas med så att vi inte behöver läsa in alla data igen. (vill undvika globala variabler)
-    userInput = input(prompt)
-    if(userInput != "!"):
-        return userInput
-    else:
-        print("\n----------------------\nDu har valt att avbryta nuvarande val, återgår till huvudmenyn.\n")
+    try:
+        userInput = input(prompt)
+        if(userInput != "!"):
+            return userInput
+        else:
+            print("\n----------------------\nDu har valt att avbryta nuvarande val, återgår till huvudmenyn.\n")
+            huvudMeny(0, master)
+    except:
+        print("Something went wrong.")
         huvudMeny(0, master)
-
-
+    
 
 
 def skapaNyPerson(master):

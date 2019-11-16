@@ -104,7 +104,7 @@ class MasterRegister:
         else:
             valen = val.split(",")
             for val in valen:
-                lista.append(int(val)-1) #minus one because this will be used to index lists
+                lista.append(int(val)-1) #minus one because this will be used to index lists(this way I don't have to do it at the other places)
         return lista
 
 

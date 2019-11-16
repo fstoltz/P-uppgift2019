@@ -50,21 +50,34 @@ class Register():
                 elif(typ == "ANDRA"):
                     #Jag tycker det är viktigare att kunna söka med enkla termer och sen knappa igenom om man hamnade på fel person
                     #än att behöva komma ihåg hela namnet på personen för att kunna ta bort den
-                    print("Du ändrar just nu på kontakten '"+person.getFornamn()+" "+person.getEfternamn()+"'. Är det rätt person?(ja/nej)")
-                    if(input() == "ja"):
-                        usrin1 = input("Vill du byta telefonnummer(ja/nej)?")
-                        if(usrin1 == "ja"):
-                            person.setNummer(input("Ange nytt nummer: "))
-                            print("Telefonnummret har uppdaterats.")
-                        usrin1 = input("Vill du byta address(ja/nej)?")
-                        if(usrin1 == "ja"):
-                            person.setAddress(input("Ange ny address: "))
-                            print("Addressen har uppdaterats.")
-
+                    self.andraPaKontakt(person)
 
                     print("---------------------\n")
 
 
+    def andraPaKontakt(self, person):
+        print("Du ändrar just nu på kontakten '"+person.getFornamn()+" "+person.getEfternamn()+"'. Är det rätt person?(ja/nej)")
+        if(input().lower() == "ja"):
+            usrin1 = input("Vill du byta telefonnummer(ja/nej)?").lower()
+            if(usrin1 == "ja"):
+                person.setNummer(self.validateInput(input("Ange nytt nummer: "), "NUM"))
+                print("Telefonnummret har uppdaterats.")
+            usrin1 = input("Vill du byta address(ja/nej)?").lower()
+            if(usrin1 == "ja"):
+                person.setAddress(input("Ange ny address: "))
+                print("Addressen har uppdaterats.")
+
+
+
+    def validateInput(self, theInput, typ):
+        if(typ == "NUM"):
+            theInput.strip()
+            numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            cleanedInput = ""
+            for char in theInput:
+                if char in numbers:
+                    cleanedInput += char
+        return cleanedInput
 
     def taBortPerson(self, kontakt):
         #“Går igenom sin personLista och tar bort kontakt från den”
