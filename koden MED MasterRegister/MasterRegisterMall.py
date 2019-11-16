@@ -5,6 +5,7 @@ Datum: 16/11-2019
 from registerMall import Register
 from personMall import Person
 import funktioner
+import os
 
 
 #Klass som endast får instansieras en gång! (Singleton)
@@ -58,16 +59,21 @@ class MasterRegister:
 
 
     def hamtaRegisterNamn(self):
-        file = open("register.info", "r")    
-        lines = file.readlines()
-        myDict = {}
-        for i in range(0, len(lines)):
-            line = lines[i]
-            line.strip("\n")
-            myDict.update({i+1:line})
-            #print("("+str(i+1)+") " + lines[i], end="")
-        return(myDict)
-
+        try:
+            file = open("register.info", "r")    
+            lines = file.readlines()
+            myDict = {}
+            for i in range(0, len(lines)):
+                line = lines[i]
+                line.strip("\n")
+                myDict.update({i+1:line})
+                #print("("+str(i+1)+") " + lines[i], end="")
+            return(myDict)
+        except FileNotFoundError:
+            print("\n\n\n>>>Filen som innehåller namnen på de olika registrena kunde inte hittas. Vänligen återställ filen 'register.info'")
+            print("Avslutar...")
+            exit()
+        
 
     def skrivAndringarTillFil(self):
         for register in self.__huvudRegister:
@@ -80,14 +86,21 @@ class MasterRegister:
 
     def skapaNyttRegister(self, namnPaRegister):
         #namnPaRegister = funktioner.readInput(self, "Namn på nya registret: ")
-        file = open("register.info", "a")
-        file.write(namnPaRegister + "\n") #SAK 1
-        f= open(namnPaRegister.lower()+".reg","w") #SAK 2
-        f.close()
-        self.__huvudRegister.append(Register(namnPaRegister)) #SAK3
+        if (self.kontrolleraFilensExistens("register.info") == True):
+            file = open("register.info", "a")
+            file.write(namnPaRegister + "\n") #SAK 1
+            f= open(namnPaRegister.lower()+".reg","w") #SAK 2
+            f.close()
+            self.__huvudRegister.append(Register(namnPaRegister)) #SAK3
+        else:
+            print("Filen 'register.info' har korrumpterats under programmets körning. Vänligen återställ den.")
 
-
-
+    def kontrolleraFilensExistens(self, filnamn):
+        contents = os.listdir("/home/fsto/Documents/Programmering och C/P-uppgift2019/koden MED MasterRegister/")
+        if filnamn in contents:
+            return True
+        else:
+            return False
 
     def laggTillPersonIRegister(self, nyKontakt, valen):
         #valen är vilka register anv. valde att lägga till nyKontakt till
@@ -115,21 +128,25 @@ class MasterRegister:
 
     def laddaAllaRegisterMedInfoFranFil(self):
     #print(listaMedRegisterObj)
+        #print(contents)
         for i in range(0, len(self.__huvudRegister)):
             #nyKontakt måste här läsa från relevant register och göra ett nytt kontakt objekt
             filnamn = self.__huvudRegister[i].getNamn().lower()+".reg"
-            fil = open(filnamn, "r")
+            if (self.kontrolleraFilensExistens(filnamn) == True):
+                fil = open(filnamn, "r")
 
-            data = fil.readlines()
-            if(len(data) > 0): #edge case fix
-                del data[0]
+                data = fil.readlines()
+                if(len(data) > 0): #edge case fix
+                    del data[0]
 
-            for b in range(0, len(data)): #for loopen tar bort ny rad brytning som vi ej vill ha vid nyskapning av personer
-                data[b] = data[b].strip("\n") 
+                for b in range(0, len(data)): #for loopen tar bort ny rad brytning som vi ej vill ha vid nyskapning av personer
+                    data[b] = data[b].strip("\n") 
 
-            for c in range(0, len(data), 4):
-                nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
-                self.__huvudRegister[i].laggTillKontakt(nyKontakt)
+                for c in range(0, len(data), 4):
+                    nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
+                    self.__huvudRegister[i].laggTillKontakt(nyKontakt)
+            else:
+                print("\n\nFilen '"+filnamn+"' kunde inte hittas.")
 
 
 
