@@ -94,7 +94,7 @@ class MasterRegister:
                 #print("("+str(i+1)+") " + lines[i], end="")
             return(myDict)
         except FileNotFoundError:
-            print("\n\n\n>>>Filen som innehåller namnen på de olika registrena kunde inte hittas. Vänligen återställ filen 'register.info'")
+            print("\n\n\n---> Filen som innehåller namnen på de olika registrena kunde inte hittas. Vänligen återställ filen 'register.info'")
             print("Avslutar...")
             exit()
         
@@ -117,7 +117,7 @@ class MasterRegister:
             f.close()
             self.__huvudRegister.append(Register(namnPaRegister)) #SAK3
         else:
-            print("Filen 'register.info' har korrumpterats under programmets körning. Vänligen återställ den.")
+            print("---> Filen 'register.info' har korrumpterats under programmets körning. Vänligen återställ den.")
 
     def kontrolleraFilensExistens(self, filnamn):
         contents = os.listdir("/home/fsto/Documents/Programmering och C/P-uppgift2019/koden MED MasterRegister/")
@@ -170,7 +170,7 @@ class MasterRegister:
                     nyKontakt = Person(data[c], data[c+1], data[c+2], data[c+3])
                     self.__huvudRegister[i].laggTillKontakt(nyKontakt)
             else:
-                print("\n\nFilen '"+filnamn+"' kunde inte hittas.")
+                print("\n\n---> Filen '"+filnamn+"' kunde inte hittas.")
 
 
 
