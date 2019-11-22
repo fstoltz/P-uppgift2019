@@ -44,26 +44,26 @@ class Register():
     
 
     def sok(self, keyword, typ):
-        #Generisk sökfunktion som försöker hitta en matchning av keyword på något i sin personLista, 
-        #vid flera träffar(ex. samma förnamn) skrivs samtliga träffar ut, vid en träff skrivs just den träffen ut, vid ingen träff skrivs inget ut.
-        keyword = keyword.lower()
-        
-        for person in self.__personLista:
-            if(person.getFornamn().lower() == keyword or person.getEfternamn().lower() == keyword or person.getNummer() == keyword or person.getAddress().lower() == keyword):
-                if(typ == "LETA"):
-                    print(person)
-                elif(typ == "TABORT"):
-                    print("---> Är du säker på att du vill ta bort " + person.getFornamn() + " " + person.getEfternamn() + "?\n---> Ange 'JA' för att fortsätta.")
-                    if(input() == "JA"):
-                        self.__personLista.remove(person)
-                        print(person.getFornamn() + " " + person.getEfternamn() + " har tagits borts.")
-                    else:
-                        print("---> Personen har inte tagits bort.")
-                elif(typ == "ANDRA"):
-                    #Jag tycker det är viktigare att kunna söka med enkla termer och sen knappa igenom om man hamnade på fel person
-                    #än att behöva komma ihåg hela namnet på personen för att kunna ta bort den
-                    self.andraPaKontakt(person)
-                    print("---------------------\n")
+            #Generisk sökfunktion som försöker hitta en matchning av keyword på något i sin personLista, 
+            #vid flera träffar(ex. samma förnamn) skrivs samtliga träffar ut, vid en träff skrivs just den träffen ut, vid ingen träff skrivs inget ut.
+            keyword = keyword.lower()
+            
+            for person in self.__personLista:
+                if(person.getFornamn().lower() == keyword or person.getEfternamn().lower() == keyword or person.getNummer() == keyword or person.getAddress().lower() == keyword):
+                    if(typ == "LETA"):
+                        print(person)
+                    elif(typ == "TABORT"):
+                        print("---> Är du säker på att du vill ta bort " + person.getFornamn() + " " + person.getEfternamn() + "?\n---> Ange 'JA' för att fortsätta.")
+                        if(input() == "JA"):
+                            self.__personLista.remove(person)
+                            print(person.getFornamn() + " " + person.getEfternamn() + " har tagits borts.")
+                        else:
+                            print("---> Personen har inte tagits bort.")
+                    elif(typ == "ANDRA"):
+                        #Jag tycker det är viktigare att kunna söka med enkla termer och sen knappa igenom om man hamnade på fel person
+                        #än att behöva komma ihåg hela namnet på personen för att kunna ta bort den
+                        self.andraPaKontakt(person)
+                        print("---------------------\n")
 
 
     def andraPaKontakt(self, person):
