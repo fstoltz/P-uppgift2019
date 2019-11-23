@@ -12,8 +12,8 @@ Denna fil består av funktioner som ordnar med menyhantering och validering av i
 
 
 
+#Skriver ut menyn etc, läser userinput för val. Ropar på lämplig funktion x vid val x, samt skriver ut nödvändig info vid respektive val.
 def huvudMeny(firstTime=1, master=None):
-    #Skriver ut menyn etc, läser userinput för val. Ropar på lämplig funktion x vid val x, samt skriver ut nödvändig info vid respektive val.
     if(firstTime == 1):
         print("\n\nVälkommen till din kontaktbok.")
         master = MasterRegister()
@@ -66,7 +66,7 @@ def huvudMeny(firstTime=1, master=None):
             print("Skriver till fil...\nAvslutar programmet...")
             exit() #Stänger av programmet.
 
-
+#Skriver ut huvudmenyinstruktionerna till användaren
 def huvudMenyInstruktioner():
     print('''
     Vad vill du göra?
@@ -79,8 +79,8 @@ def huvudMenyInstruktioner():
     ''')
 
 
+#Validerar input från användaren. Om "bokstaven" är en siffra, tolkas den som en del av nummret, annars dumpas den.
 def validateInput(theInput, typ):
-    #Validerar input från användaren. Om "bokstaven" är en siffra, tolkas den som en del av nummret, annars dumpas den.
     if(typ == "NUM"):
         theInput.strip()
         numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -90,5 +90,7 @@ def validateInput(theInput, typ):
                 cleanedInput += char
     elif(typ == "NAME"):
         pass #(valt att inte sätta några restriktioner på namnsättning, likt en papperskontaktbok)
+    elif(typ == "ADDR"):
+        pass #(valt att inte sätta några restriktioner på addressformat, likt en papperskontaktbok)
     return cleanedInput
 
